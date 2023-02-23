@@ -11,6 +11,7 @@ import { listOrders } from './app/useCases/orders/listOrders';
 import { createOrder } from './app/useCases/orders/createOrder';
 import { changeOrderStatus } from './app/useCases/orders/changeOrderStatus';
 import { cancelOrder } from './app/useCases/orders/cancelOrder';
+import { registerUser } from './app/useCases/users/registerUser';
 
 export const router = Router();
 
@@ -51,6 +52,9 @@ router.patch('/orders/:orderId', changeOrderStatus);
 
 // Cancel order
 router.delete('/orders/:orderId', cancelOrder);
+
+// Register user
+router.post('/users', registerUser);
 
 
 

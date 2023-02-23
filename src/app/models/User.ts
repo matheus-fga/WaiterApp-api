@@ -1,11 +1,12 @@
 import { model, Schema } from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 export enum Roles {
   WAITER = 'WAITER',
   ADMIN = 'ADMIN'
 }
 
-export const User = model('User', new Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -19,9 +20,18 @@ export const User = model('User', new Schema({
     type: String,
     required: true
   },
-  roles: {
+  role: {
     type: String,
     enum: Object.keys(Roles),
     default: Roles.WAITER,
   }
-}));
+});
+
+userSchema.pre('save', function (next) {
+  if (this.isNew || this.isModified('password')) {
+    this.password = bcrypt.hashSync(this.password, 8);
+    next();
+  }
+});
+
+export const User = model('User', userSchema);
