@@ -12,6 +12,7 @@ import { createOrder } from './app/useCases/orders/createOrder';
 import { changeOrderStatus } from './app/useCases/orders/changeOrderStatus';
 import { cancelOrder } from './app/useCases/orders/cancelOrder';
 import { registerUser } from './app/useCases/users/registerUser';
+import { authenticate } from './app/useCases/auth/authenticate';
 
 export const router = Router();
 
@@ -55,6 +56,9 @@ router.delete('/orders/:orderId', cancelOrder);
 
 // Register user
 router.post('/users', registerUser);
+
+// Authenticate
+router.post('/auth', authenticate);
 
 
 
