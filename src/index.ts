@@ -2,6 +2,10 @@ import path from 'node:path';
 import http from 'node:http';
 import express from 'express';
 import mongoose from 'mongoose';
+
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import { Server } from 'socket.io';
 
 import { router } from './router';

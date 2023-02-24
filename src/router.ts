@@ -14,6 +14,10 @@ import { cancelOrder } from './app/useCases/orders/cancelOrder';
 import { registerUser } from './app/useCases/users/registerUser';
 import { authenticate } from './app/useCases/auth/authenticate';
 
+import authMiddleware from './app/middlewares/authMiddleware';
+
+import { Roles } from './app/models/User';
+
 export const router = Router();
 
 const upload = multer({
@@ -28,38 +32,34 @@ const upload = multer({
 });
 
 // List categories
-router.get('/categories', listCategories);
+router.get('/categories', authMiddleware(), listCategories);
 
 // Create category
-router.post('/categories', createCategory);
+router.post('/categories', authMiddleware(Roles.ADMIN), createCategory);
 
 // List products
-router.get('/products', listProducts);
+router.get('/products', authMiddleware(), listProducts);
 
 // Create product
-router.post('/products', upload.single('image'), createProduct);
+router.post('/products', authMiddleware(Roles.ADMIN), upload.single('image'), createProduct);
 
 // Get products by category
-router.get('/categories/:categoryId/products', listProductsByCategory);
+router.get('/categories/:categoryId/products', authMiddleware(), listProductsByCategory);
 
 // List orders
-router.get('/orders', listOrders);
+router.get('/orders', authMiddleware(), listOrders);
 
 // Create order
-router.post('/orders', createOrder);
+router.post('/orders', authMiddleware(), createOrder);
 
 // Change order status
-router.patch('/orders/:orderId', changeOrderStatus);
+router.patch('/orders/:orderId', authMiddleware(), changeOrderStatus);
 
 // Cancel order
-router.delete('/orders/:orderId', cancelOrder);
+router.delete('/orders/:orderId', authMiddleware(), cancelOrder);
 
 // Register user
-router.post('/users', registerUser);
+router.post('/users', authMiddleware(Roles.ADMIN), registerUser);
 
 // Authenticate
 router.post('/auth', authenticate);
-
-
-
-

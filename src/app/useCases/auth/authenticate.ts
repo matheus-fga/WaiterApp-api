@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import * as dotenv from 'dotenv';
-dotenv.config();
 
 import { User } from '../../models/User';
 
@@ -22,7 +20,7 @@ export async function authenticate(req: Request, res: Response) {
       return res.status(401).json({ error: 'Senha incorreta'});
     }
 
-    const token = jwt.sign({ id: user._id }, String(process.env.SECRET_KEY), { expiresIn: '1d' });
+    const token = jwt.sign({ id: user._id, role: user.role }, String(process.env.SECRET_KEY), { expiresIn: '1d' });
 
     res.json({
       user: {
