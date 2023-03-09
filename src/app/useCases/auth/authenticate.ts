@@ -11,13 +11,13 @@ export async function authenticate(req: Request, res: Response) {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ error: 'Usuário não encontrado'});
+      return res.status(400).json({ error: 'Usuário não encontrado'});
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-      return res.status(401).json({ error: 'Senha incorreta'});
+      return res.status(400).json({ error: 'Senha incorreta'});
     }
 
     const token = jwt.sign({ id: user._id, role: user.role }, String(process.env.SECRET_KEY), { expiresIn: '1d' });

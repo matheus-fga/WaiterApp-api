@@ -18,10 +18,8 @@ export default function authMiddleware(roles: string[] | string = []) {
     (req: Request,  res: Response, next: NextFunction) => {
       const role = req.userRole;
 
-      console.log(roles);
-
       if (roles.length && !roles.includes(role)) {
-        return res.sendStatus(401);
+        return res.sendStatus(403);
       }
 
       return next();
